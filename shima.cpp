@@ -1,9 +1,9 @@
 /* 
- * Prime Numbers Program
- * To Understand C++ Iteration Statements,
- * And How to Read Input from and Write Output to Text Files
+ * H3 Program
+ * To Understand How to Declare and Manipulate Multi Dimensional Arrays in C++,
+ * And How to Design and Use Functions
  * By Shima Azizzadeh-Roodpish
- * 29 Jan 2015
+ * 12 Feb 2015
  * No Copyright
  */
  
@@ -15,161 +15,157 @@
 using namespace std;
  
 // Main Program.
-// Return Zero on Success.
-// Return One If the Input and Two If the Output Is Not Right.
+// Return Zero on Success, Non-Zero in case of Failure.
 
 int main () {
      
     // Defining Variables' Type
 
-    string inputfilename, outputfilename;
-    int i, x, factor, num = 0, p_num = 0, non_p_num = 0;
-    int max_num, min_num, max_p_num, min_p_num, max_non_p_num, min_non_p_num;
-    double sum_num, sum_p_num, sum_non_p_num, avg_num, avg_p_num, avg_non_p_num;
-    
+    string inputfilename, outputfilename = "shima.out", errorfilename = "shima.err", i, first, second;
+    int num_of_stations = 0, num_of_instruments = 0, x, y, third = 0, m, n, row=-1, col=-1, num = 0, correct=0, failed=0;
+    int sm = 0, sl = 0, nsm = 0, nlm = 0, im = 0, il = 0; nim = 0, nil = 0;
     // Prompt User for Input File Name.
 
     cout << "Enter input file name: ";
     cin >> inputfilename;
-
-    // ifstream Is an INPUT File Stream
-    
     ifstream inputfile;
-    
-    // c_str Is a Function to Convert inputfilename to a C String
-
     inputfile.open(inputfilename.c_str());
 
     // Check to Make Sure the File Is Opened Properly
 
     if ( !inputfile.is_open() ) {
-        cout << "File does not exist!" << endl;
+        cout << "Input file does not exist!" << endl;
         return 1;
     }   
     
-    // Prompt User for Output File Name.
-
-    cout << "Enter output file name: ";
-    cin >> outputfilename;
-    
-    // ofstream is an OUTPUT File Stream
+    // Preparing output file and error file
     
     ofstream outputfile;
-    
-    // c_str Is a Function to Convert outputfilename to a C String
-
+    ofstream errorfile;
     outputfile.open(outputfilename.c_str());
+    errorfile.open(errorfilename.c_str());
     
-    // Check That the Output File Is Opened Properly 
+    // Reading Number of Stations of the Top as Integer
+
+    inputfile >> num_of_stations;
+    cout << "Number of Stations: " << num_of_stations << endl;
     
-    if ( !outputfile.is_open() ) {
-        cout << "Cannot open output file!" << endl;
+    // Checking for the Valid Number of Stations
+
+    if ( ( num_of_stations <= 0 ) || ( num_of_stations > 100 ) ) {
+        cout << "Number of Stations is not Valid!" << endl;
         return 2;
-    } 
-                
-    // Finding Prime and Non_prime Numbers, Max, Min and Sum
-
-    while ( inputfile >> i ) {
-        factor = 0;
-        sum_num = sum_num + i;
-        num = num + 1;
-        if ( num == 1 ) {
-            max_num = i;
-            min_num = i;
-        }
-        else {
-            if ( max_num < i ) {
-                max_num = i;
-            }    
-            if ( min_num > i ) {
-                min_num = i;
-            }
-        }          
-        
-        // Putting Negative Ones as Non-Prime.
-        
-        if ( i <= 0 ) { 
-            sum_non_p_num = sum_non_p_num + i;
-            non_p_num = non_p_num + 1;
-            if ( non_p_num == 1 ) { 
-                max_non_p_num = i;
-                min_non_p_num = i;
-            }
-            else {
-                if ( max_non_p_num < i ) {
-                    max_non_p_num = i;
-                }    
-                if ( min_non_p_num > i ) {
-                    min_non_p_num = i;
-                }
-            }    
-        }
-        else {
-            for( x = 2; x <= i; x++ ) {
-                if ( i % x == 0 ) {
-                    factor++;    // Counting Number of Factors
-                }
-            }
-                                      
-            if ( factor != 1 ) {
-                sum_non_p_num = sum_non_p_num + i;
-                non_p_num = non_p_num + 1;
-                if ( non_p_num == 1 ) { 
-                    max_non_p_num = i;
-                    min_non_p_num = i;
-                }
-                else {
-                    if ( max_non_p_num < i ) {
-                        max_non_p_num = i;
-                    }
-                    if ( min_non_p_num > i ) {
-                        min_non_p_num = i;
-                    }
-                }    
-            }
-            else {
-                sum_p_num = sum_p_num + i;
-                p_num = p_num + 1;
-                if ( p_num == 1 ) { 
-                    max_p_num = i;
-                    min_p_num = i;
-                }
-                else {
-                    if ( max_p_num < i ) {
-                        max_p_num = i;
-                    }
-                    if ( min_p_num > i ) {
-                        min_p_num = i;
-                    }
-                }    
-                     
-                // File Outputs
-
-                outputfile << i << "\n" ;
-                outputfile << endl;
-                     
-            }             
-        }   
-    }
-       
-    // Finding Average, We Can Also Do It Directly in Output.
-
-    avg_num = sum_num / num;
-    avg_p_num = sum_p_num / p_num;
-    avg_non_p_num = sum_non_p_num / non_p_num;
+    }    
     
-    // Terminal Outputs
+    // Reading Number of Instruments of the Top as Integer
 
-    cout << "Number of all is: " << num << endl;
-    cout << "Number of primes is: " << p_num << endl;
-    cout << "Number of non_primes is: " << non_p_num << endl;
-    cout << "Maximum of (all, prime, non-prime) is: " << max_num << ", " << max_p_num << ", " << max_non_p_num << endl;
-    cout << "Minimum of (all, prime, non-prime) is: " << min_num << ", " << min_p_num << ", " << min_non_p_num << endl;    
-    cout << "Average of (all, prime, non-prime) is: " << avg_num << ", " << avg_p_num << ", " << avg_non_p_num << endl;
-    cout << "The End." << endl;
+    inputfile >> num_of_instruments;
+    cout << "Number of Instrument: " << num_of_instruments << endl;   
+    
+    // Checking for the Valid Number of Instrument
+    
+    if ( ( num_of_instruments <= 0 ) || ( num_of_instruments > 10 ) ) {
+        cout << "Number of Instrument is not Valid!" << endl;
+        return 3;
+    }
+
+    // Defining Array and Reading the Stations' Name
+
+    string station_name [100];
+    for( x = 0; x <= ( num_of_stations - 1 ) ; x++ ) {
+        inputfile >> station_name[x];
+    }    
+    cout << "Stations read." << endl;
+    cout << station_name[0]<< endl;
+    cout << station_name[1]<<endl;
+    cout << station_name[2]<<endl;
+    cout << station_name[3]<<endl;
+    cout << station_name[5]<<endl;
+
+    // Defining Array and Reading the Instruments' Name
+    
+    string instrument_name [10];
+    for( y = 0; y <= ( num_of_instruments - 1 ); y++ ) {
+        inputfile >> instrument_name[y];
+    }  
+    cout << "Instruments read." << endl;
+
+    // Defining Array for Table
+    
+    int table [num_of_stations] [num_of_instruments];
+       
+    // Reading Other Information and Putting Them in Table
+    
+    cout << "Reading entries ... " << endl;
+    while ( inputfile >> i ) { 
+        num = 1 + num;
+        inputfile >> first;
+        inputfile >> second;
+        inputfile >> third;
+        for ( m = 0; m <= ( num_of_stations - 1 ); m++ ) {
+            if ( station_name[m] == first ) { 
+            row = m;
+            }
+        }
+        for ( n = 0; n <= ( num_of_instruments - 1 ); n++ ) {
+            if ( instrument_name[n] == second ) {
+            col = n;
+            }
+        }
+        if ( row == -1 ) {
+            cout << "Warning: There is a problem with the name of the station in entry " << num << " . " << first << " is not valid and is ignored" << endl;
+            errorfile << "Warning: There is a problem with the name of the station in entry " << num << " . " << first << " is not valid and is ignored" << "\n" ;
+            errorfile << endl;
+            failed = failed + 1;
+        }
+        else {
+            if ( col == -1 ) {
+                cout << "Warning: There is a problem with the name of the instrument in entry " << num << " . " << second << " is not valid and is ignored" << endl;
+                errorfile << "Warning: There is a problem with the name of the instrument in entry " << num << " . " << second << " is not valid and is ignored" << "\n" ;
+                errorfile << endl;
+                failed = failed + 1;
+            }
+            else {
+                if ( third < 0 ) {
+                    cout << "Warning: There is a problem with number of events in entry " << num << " . " << third << " is negative and is ignored" << endl;
+                    errorfile << "Warning: There is a problem with number of events in entry " << num << " . " << third << " is negative and is ignored" << "\n" ;
+                    errorfile << endl;
+                    failed = failed + 1;
+                }
+                else {    
+                    table [row][col] = table [row][col] + third;
+                    correct = correct + 1;
+                }    
+            }
+        }
+    }            
+              
+    cout << "Total of " << correct << " entries processed correctly and total of " << failed << " entries ignored." << endl;
+    errorfile << "Total of " << correct << " entries processed correctly and total of " << failed << " entries ignored." << endl;
+    
+    cout << "Generating report ... " << endl;
+    cout << "Completed." << endl;
+    
+    // Output file
+    
+    outputfile << "Seismic Events Summary Report" << endl;
+    outputfile << "Station   " << instrument_name[] << endl;
+    for ( k = 0; k <= ( num_of_stations - 1 ); k++) {
+        outputfile << station_name [k] << table [k][] << endl;
+    }
+    
+    outputfile << "Total number of events per station" << endl;
+
+    outputfile << "Total number of events per instrument" << endl;
+    
+    outputfile << "Station with the most record is " << sm << " with " << nsm << " events" << endl;
+    outputfile << "Station with the least record is " << sl << " with " << nsl << " events" << endl;
+    outputfile << "Instrument with the most record is " << im << " with " << nim << " events" << endl;
+    outputfile << "Instrument with the least record is " << il << " with " << nil << " events" << endl;
 
     inputfile.close ();
     outputfile.close ();
+    errorfile.close ();
     
     return 0;
 }
