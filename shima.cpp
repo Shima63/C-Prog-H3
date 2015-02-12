@@ -170,7 +170,7 @@ int main () {
     
     // Writing the First Row
     
-    output << " Station";
+    output << " Station" <<;
     for ( n = 0; n <= ( num_of_instruments - 1 ); n++ ) {
          
     }
