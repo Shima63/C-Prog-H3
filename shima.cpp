@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 using namespace std;
  
 // Main Program.
@@ -166,6 +167,14 @@ int main () {
     // Output file
     
     outputfile << "Seismic Events Summary Report" << endl;
+    
+    // Writing the First Row
+    
+    output << " Station";
+    for ( n = 0; n <= ( num_of_instruments - 1 ); n++ ) {
+         
+    }
+
     outputfile << "Station   " << instrument_name << endl;
     for ( k = 0; k <= ( num_of_stations - 1 ); k++) {
         outputfile << station_name [k] << table [k] << endl;
