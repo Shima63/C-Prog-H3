@@ -22,8 +22,9 @@ int main () {
     // Defining Variables' Type
 
     string inputfilename, outputfilename = "shima.out", errorfilename = "shima.err", i, first, second;
-    int num_of_stations = 0, num_of_instruments = 0, x, y, third = 0, m, n, row=-1, col=-1, num = 0, correct=0, failed=0;
-    int sm = 0, sl = 0, nsm = 0, nlm = 0, im = 0, il = 0; nim = 0, nil = 0;
+    int num_of_stations = 0, num_of_instruments = 0, x, y, third = 0, m, n, row, col, num = 0, correct = 0, failed = 0;
+    int sm = 0, sl = 0, nsm = 0, nsl = 0, im = 0, il = 0, nim = 0, nil = 0, k;
+    
     // Prompt User for Input File Name.
 
     cout << "Enter input file name: ";
@@ -49,7 +50,8 @@ int main () {
 
     inputfile >> num_of_stations;
     cout << "Number of Stations: " << num_of_stations << endl;
-    
+    errorfile << "Number of Stations: " << num_of_stations << endl;
+
     // Checking for the Valid Number of Stations
 
     if ( ( num_of_stations <= 0 ) || ( num_of_stations > 100 ) ) {
@@ -61,7 +63,8 @@ int main () {
 
     inputfile >> num_of_instruments;
     cout << "Number of Instrument: " << num_of_instruments << endl;   
-    
+    errorfile << "Number of Instrument: " << num_of_instruments << endl;   
+
     // Checking for the Valid Number of Instrument
     
     if ( ( num_of_instruments <= 0 ) || ( num_of_instruments > 10 ) ) {
@@ -76,11 +79,7 @@ int main () {
         inputfile >> station_name[x];
     }    
     cout << "Stations read." << endl;
-    cout << station_name[0]<< endl;
-    cout << station_name[1]<<endl;
-    cout << station_name[2]<<endl;
-    cout << station_name[3]<<endl;
-    cout << station_name[5]<<endl;
+    errorfile << "Stations read." << endl;
 
     // Defining Array and Reading the Instruments' Name
     
@@ -88,25 +87,43 @@ int main () {
     for( y = 0; y <= ( num_of_instruments - 1 ); y++ ) {
         inputfile >> instrument_name[y];
     }  
-    cout << "Instruments read." << endl;
 
     // Defining Array for Table
     
-    int table [num_of_stations] [num_of_instruments];
-       
+    int table [100][10] = {0};
+
     // Reading Other Information and Putting Them in Table
     
     cout << "Reading entries ... " << endl;
+    errorfile << "Reading entries ... " << endl;
+    
     while ( inputfile >> i ) { 
+        
+        // Finding Total Number of Entries
+        
         num = 1 + num;
-        inputfile >> first;
+
+        // Reading the Three Entries
+        
+        first = i;
         inputfile >> second;
         inputfile >> third;
+
+        // Initializing Row and Col Elements of Table
+        
+        row = -1;
+        col = -1;
+        
+        // Searching in Stations' Name
+         
         for ( m = 0; m <= ( num_of_stations - 1 ); m++ ) {
             if ( station_name[m] == first ) { 
             row = m;
             }
         }
+        
+        // Searching in Instrument' Name
+
         for ( n = 0; n <= ( num_of_instruments - 1 ); n++ ) {
             if ( instrument_name[n] == second ) {
             col = n;
@@ -144,24 +161,29 @@ int main () {
     errorfile << "Total of " << correct << " entries processed correctly and total of " << failed << " entries ignored." << endl;
     
     cout << "Generating report ... " << endl;
-    cout << "Completed." << endl;
-    
+    errorfile << "Generating report ... " << endl;
+
     // Output file
     
     outputfile << "Seismic Events Summary Report" << endl;
-    outputfile << "Station   " << instrument_name[] << endl;
+    outputfile << "Station   " << instrument_name << endl;
     for ( k = 0; k <= ( num_of_stations - 1 ); k++) {
-        outputfile << station_name [k] << table [k][] << endl;
+        outputfile << station_name [k] << table [k] << endl;
     }
     
-    outputfile << "Total number of events per station" << endl;
+    outputfile << "Total number of entries is " << num << endl;
+ 
+    outputfile << "Total number of events per station is " << endl;
 
-    outputfile << "Total number of events per instrument" << endl;
+    outputfile << "Total number of events per instrument is " << endl;
     
     outputfile << "Station with the most record is " << sm << " with " << nsm << " events" << endl;
     outputfile << "Station with the least record is " << sl << " with " << nsl << " events" << endl;
     outputfile << "Instrument with the most record is " << im << " with " << nim << " events" << endl;
     outputfile << "Instrument with the least record is " << il << " with " << nil << " events" << endl;
+
+    cout << "Completed." << endl;
+    errorfile << "Completed." << endl;
 
     inputfile.close ();
     outputfile.close ();
