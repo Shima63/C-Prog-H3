@@ -5,6 +5,7 @@
  * By Shima Azizzadeh-Roodpish
  * 12 Feb 2015
  * No Copyright
+ * Github account: https://github.com/Shima63/C-Prog-H3.git
  */
  
 // External Libraries
@@ -14,7 +15,7 @@
 #include <fstream>
 #include <iomanip>
 using namespace std;
- 
+
 // Main Program.
 // Return Zero on Success, Non-Zero in case of Failure.
 
@@ -24,7 +25,7 @@ int main () {
 
     string inputfilename, outputfilename = "shima.out", errorfilename = "shima.err", i;
     string first, second, sm, sl, im, il;
-    int num_of_stations = 0, num_of_instruments = 0, third = 0, num = 0, x, y, m, n, k, row, col;
+    int num_of_stations = 0, num_of_instruments = 0, third = 0, num = 0, x, y, m, n, row, col;
     int tem = 0, temp = 0, factor = 0, nsm = 0, nsl = 0, nim = 0, nil = 0, correct = 0, failed = 0;
     
     // Prompt User for Input File Name.
@@ -76,7 +77,7 @@ int main () {
 
     // Defining Array and Reading the Stations' Name
 
-    string station_name [100];
+    string station_name[100];
     for( x = 0; x <= ( num_of_stations - 1 ) ; x++ ) {
         inputfile >> station_name[x];
     }    
@@ -85,14 +86,14 @@ int main () {
 
     // Defining Array and Reading the Instruments' Name
     
-    string instrument_name [10];
+    string instrument_name[10];
     for( y = 0; y <= ( num_of_instruments - 1 ); y++ ) {
         inputfile >> instrument_name[y];
     }  
 
-    // Defining Array for Table
+    // Defining Array for Table of Information
     
-    int table [100][10] = {0};
+    int table[100][10] = {0};
 
     // Reading Other Information and Putting Them in Table
     
@@ -105,13 +106,13 @@ int main () {
         
         num = 1 + num;
 
-        // Reading the Three Entries
+        // Reading the Three Entries : first: Name of Stations, Second: Name of Instruments, third: Number of Events 
         
         first = i;
         inputfile >> second;
         inputfile >> third;
 
-        // Initializing Row and Col Elements of Table
+        // Initializing Row and Col Elements of Table to Check if Inputs Match with Names of Stations and Instruments
         
         row = -1;
         col = -1;
@@ -152,7 +153,7 @@ int main () {
                     failed = failed + 1;
                 }
                 else {    
-                    table [row][col] = table [row][col] + third;
+                    table[row][col] = table[row][col] + third;
                     correct = correct + 1;
                 }    
             }
@@ -186,7 +187,7 @@ int main () {
         }       
     }
     
-    // Total Number of Events per Station
+    // Total Number of Events per Station, Finding Amount and Place of Max and Min and Distinguishing If There Are Multiple Max and Min
     
     outputfile << endl << "Total number of events per station " << endl;
     outputfile << setw (12) << left << "Station" << "Total" << endl;
@@ -210,9 +211,9 @@ int main () {
                 sm = station_name[m];
             } 
             else { 
-                if ( nsm == tem ) {
+                if ( nsm == tem ) { // If There Are Multiple Max, I will Append the Names for Output
                     sm.append ( " , " );
-                    sm.append ( station_name[m] );
+                    sm.append ( station_name[m] ); 
                 }  
             }    
             if ( nsl > tem ) {
@@ -220,7 +221,7 @@ int main () {
                 sl = station_name[m];
             }
             else {
-                if ( nsl == tem ) {
+                if ( nsl == tem ) { // If There Are Multiple Min, I will Append the Names for Output
                     sl.append ( " , " );
                     sl.append ( station_name[m] );
                 }    
@@ -229,7 +230,7 @@ int main () {
         outputfile << tem << endl;
     }
 
-    // Total Number of Events per Instrument
+    // Total Number of Events per Instrument, Finding Amount and Place of Max and Min and Distinguishing If There Are Multiple Max and Min
  
     outputfile << endl << "Total number of events per Instrument " << endl;
     outputfile << setw (17) << left << "Instrument" << "Total" << endl;
@@ -253,7 +254,7 @@ int main () {
                 im = instrument_name[n];
             }
             else {
-                if ( nim == tem ) {
+                if ( nim == tem ) { // If There Are Multiple Max, I will Append the Names for Output
                     im.append ( " , " );
                     im.append ( instrument_name[n] );
                 }
@@ -263,7 +264,7 @@ int main () {
                 il = instrument_name[n];
             }
             else {
-                if ( nil == tem ) {
+                if ( nil == tem ) { // If There Are Multiple Min, I will Append the Names for Output
                     il.append ( " , " );
                     il.append ( instrument_name[n] );
                 }
