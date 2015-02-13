@@ -22,9 +22,10 @@ int main () {
      
     // Defining Variables' Type
 
-    string inputfilename, outputfilename = "shima.out", errorfilename = "shima.err", i, first, second;
-    int num_of_stations = 0, num_of_instruments = 0, x, y, third = 0, m, n, row, col, num = 0, correct = 0, failed = 0;
-    int sm = 0, sl = 0, nsm = 0, nsl = 0, im = 0, il = 0, nim = 0, nil = 0, k;
+    string inputfilename, outputfilename = "shima.out", errorfilename = "shima.err", i;
+    string first, second, sm, sl, im, il;
+    int num_of_stations = 0, num_of_instruments = 0, third = 0, num = 0, x, y, m, n, k, row, col;
+    int tem = 0, temp = 0, factor = 0, nsm = 0, nsl = 0, nim = 0, nil = 0, correct = 0, failed = 0;
     
     // Prompt User for Input File Name.
 
@@ -170,22 +171,110 @@ int main () {
     
     // Writing the First Row
     
-    output << " Station" <<;
+    outputfile << setw (12) << left << "Station"; // Assumed 10 Char for the Name of Station +2 Additional Space for Enough Distance
     for ( n = 0; n <= ( num_of_instruments - 1 ); n++ ) {
-         
-    }
-
-    outputfile << "Station   " << instrument_name << endl;
-    for ( k = 0; k <= ( num_of_stations - 1 ); k++) {
-        outputfile << station_name [k] << table [k] << endl;
+        outputfile << setw (17) << left << instrument_name[n]; // Assumed 15 Char for the Name of Instrument +2 Additional Space for Enough Distance
     }
     
-    outputfile << "Total number of entries is " << num << endl;
+    // Writing Other Rows
+    
+    for ( m = 0; m <= ( num_of_stations - 1 ); m++ ) {
+        outputfile << endl;
+        outputfile << setw (12) << left << station_name[m];
+        for ( n = 0; n <= ( num_of_instruments - 1 ); n++ ) {
+            outputfile << setw (17) << left << table[m][n];
+        }       
+    }
+    
+    // Total Number of Events per Station
+    
+    outputfile << endl << "Total number of events per station " << endl;
+    outputfile << setw (12) << left << "Station" << "Total" << endl;
+    factor = 0;
+    for ( m = 0; m <= ( num_of_stations - 1 ); m++ ) {
+        outputfile << setw (12) << left << station_name[m];
+        tem = 0;
+        factor = factor + 1;
+        for ( n = 0; n <= ( num_of_instruments - 1 ); n++ ) {
+            tem = tem + table[m][n];
+        }
+        if ( factor == 1 ) {
+            nsm = tem;
+            nsl = tem;
+            sm = station_name[m];
+            sl = station_name[m];
+        }
+        else {
+            if ( nsm < tem ) {
+                nsm = tem;
+                sm = station_name[m];
+            } 
+            else { 
+                if ( nsm == tem ) {
+                    sm.append ( " , " );
+                    sm.append ( station_name[m] );
+                }  
+            }    
+            if ( nsl > tem ) {
+                nsl = tem;
+                sl = station_name[m];
+            }
+            else {
+                if ( nsl == tem ) {
+                    sl.append ( " , " );
+                    sl.append ( station_name[m] );
+                }    
+            }
+        }
+        outputfile << tem << endl;
+    }
+
+    // Total Number of Events per Instrument
  
-    outputfile << "Total number of events per station is " << endl;
+    outputfile << endl << "Total number of events per Instrument " << endl;
+    outputfile << setw (17) << left << "Instrument" << "Total" << endl;
+    factor = 0;
+    for ( n = 0; n <= ( num_of_instruments - 1 ); n++ ) {
+        outputfile << setw (17) << left << instrument_name[n];
+        tem = 0;
+        factor = factor + 1;
+        for ( m = 0; m <= ( num_of_stations - 1 ); m++ ) {
+            tem = tem + table[m][n];
+        }
+        if ( factor == 1 ) {
+            nim = tem;
+            nil = tem;
+            im = instrument_name[n];
+            il = instrument_name[n];
+        }
+        else {
+            if ( nim < tem ) {
+                nim = tem;
+                im = instrument_name[n];
+            }
+            else {
+                if ( nim == tem ) {
+                    im.append ( " , " );
+                    im.append ( instrument_name[n] );
+                }
+            }            
+            if ( nil > tem ) {
+                nil = tem;
+                il = instrument_name[n];
+            }
+            else {
+                if ( nil == tem ) {
+                    il.append ( " , " );
+                    il.append ( instrument_name[n] );
+                }
+            }
+        }
+        outputfile << tem << endl;
+        temp = temp + tem;
+    }
 
-    outputfile << "Total number of events per instrument is " << endl;
-    
+    outputfile << endl << "Total number of entries is " << num << endl;
+    outputfile << "Total number of events is " << temp << endl;
     outputfile << "Station with the most record is " << sm << " with " << nsm << " events" << endl;
     outputfile << "Station with the least record is " << sl << " with " << nsl << " events" << endl;
     outputfile << "Instrument with the most record is " << im << " with " << nim << " events" << endl;
