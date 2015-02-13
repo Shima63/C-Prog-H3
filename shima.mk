@@ -6,10 +6,10 @@ CC = g++
 
 CFLAGS = -Wall
 
-all: H2
+all: H3
 
-H2: H2.cpp 
-	$(CC) $(CFLAGS) H2.cpp -o run_H2
+H3: shima.cpp 
+	$(CC) $(CFLAGS) shima.cpp -o run_shimaH3
 
 clean:
-	rm -rf H2
+	rm -rf H3
