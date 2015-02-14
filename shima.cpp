@@ -93,7 +93,7 @@ int main () {
 
     // Defining Array for Table of Information
     
-    int table[100][10] = {0};
+    int table[100][10]={{0}};
 
     // Reading Other Information and Putting Them in Table
     
